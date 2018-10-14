@@ -94,7 +94,7 @@ if (empty($values)) {
     }
 }
 
-$file = './data/1.html';
+$file = './data/2.html';
 $myfile = fopen($file, 'rb') or die('Unable to open file!');
 echo 'File size is ' . filesize($file);
 $text_data = fread($myfile, filesize($file));
@@ -119,49 +119,36 @@ foreach ($array as $key => $value) {
     $unknown_4 = $value[10];
     $site_id = $value[11];
 
-    //$updateRange = 'I'.$currentRow;
-    $values = [
-        'first_name'         => $fname,
-        'LastName'          => $lname,
-        'ID'                => $tz,
-        'Address'           => $addr,
-        'Phone'             => $phone,
-        'unknown_1'         => $unknown_1,
-        'unknown_2'         => $unknown_2,
-        'support'           => $support,
-        'unknown_3'         => $unknown_3,
-        'unknown_4'         => $unknown_4,
-        'src_id'            => $site_id
-    ];
-    $values_keys = [
-        'first_name',
-        'LastName',
-        'ID',
-        'Address',
-        'Phone',
-        'unknown_1',
-        'unknown_2',
-        'support',
-        'unknown_3',
-        'unknown_4',
-        'src_id'];
+//    //$updateRange = 'I'.$currentRow;
+//    $values = [
+//        'first_name'         => $fname,
+//        'LastName'          => $lname,
+//        'ID'                => $tz,
+//        'Address'           => $addr,
+//        'Phone'             => $phone,
+//        'unknown_1'         => $unknown_1,
+//        'unknown_2'         => $unknown_2,
+//        'support'           => $support,
+//        'unknown_3'         => $unknown_3,
+//        'unknown_4'         => $unknown_4,
+//        'src_id'            => $site_id
+//    ];
+//    $values_keys = [
+//        'first_name',
+//        'LastName',
+//        'ID',
+//        'Address',
+//        'Phone',
+//        'unknown_1',
+//        'unknown_2',
+//        'support',
+//        'unknown_3',
+//        'unknown_4',
+//        'src_id'];
     $values2 = [$fname, $lname, $tz, $addr, $phone, $unknown_1, $unknown_2, $support, $unknown_3, $unknown_4, $site_id];
     //$requestBody = new Google_Service_Sheets_BatchUpdateValuesRequest([
-    $arr = [$values2];
-    $requestBody = new Google_Service_Sheets_ValueRange([
-        'values' => $arr
-    ]);
-    $response = null;
-    $params = [
-        'valueInputOption' => 'RAW'
-    ];
-    try {
-        $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $params);
-        //echo '<pre>', var_export($response, true), '</pre>', "\n";
+    $arr[] = $values2;
 
-    } catch (Exception $ex) {
-        print_r($ex);
-    }
     //$response = $service->spreadsheets_values->batchUpdate($spreadsheetId, $range, $requestBody, $params);
 
     echo "$lname\t\t$fname\t\t$tz\t$addr\t\tPhone: $phone ||| \t\tU1:$unknown_1\tU2:$unknown_2\t$support\t\tU3:$unknown_3\tU4:$unknown_4\t$site_id\n";
@@ -169,5 +156,20 @@ foreach ($array as $key => $value) {
 
     //exit();
 
+}
+
+$requestBody = new Google_Service_Sheets_ValueRange([
+    'values' => $arr
+]);
+$response = null;
+$params = [
+    'valueInputOption' => 'RAW'
+];
+try {
+    $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $params);
+    //echo '<pre>', var_export($response, true), '</pre>', "\n";
+
+} catch (Exception $ex) {
+    print_r($ex->getMessage());
 }
 //print_r($array);
