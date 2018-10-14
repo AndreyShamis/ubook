@@ -94,7 +94,7 @@ if (empty($values)) {
     }
 }
 
-$file = './data/2.html';
+$file = './data/8.html';
 $myfile = fopen($file, 'rb') or die('Unable to open file!');
 echo 'File size is ' . filesize($file);
 $text_data = fread($myfile, filesize($file));
@@ -145,7 +145,8 @@ foreach ($array as $key => $value) {
 //        'unknown_3',
 //        'unknown_4',
 //        'src_id'];
-    $values2 = [$fname, $lname, $tz, $addr, $phone, $unknown_1, $unknown_2, $support, $unknown_3, $unknown_4, $site_id];
+    //$values2 = [$fname, $lname, $tz, $addr, $phone, $unknown_1, $unknown_2, $support, $unknown_3, $unknown_4, $site_id];
+    $values2 = [$fname, $lname, $tz, $addr, $phone, $support, $unknown_4, $site_id];
     //$requestBody = new Google_Service_Sheets_BatchUpdateValuesRequest([
     $arr[] = $values2;
 
