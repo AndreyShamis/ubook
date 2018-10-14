@@ -6,7 +6,11 @@
  * Time: 16:53
  */
 
+require_once "bootstrap.php";
 require __DIR__ . '/vendor/autoload.php';
+
+
+
 //
 //define('APPLICATION_NAME', 'spreadform');
 //define('CREDENTIALS_PATH', './token.json');
@@ -80,7 +84,7 @@ $service = new Google_Service_Sheets($client);
 // Prints the names and majors of students in a sample spreadsheet:
 // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
 $spreadsheetId = '1bPaNJKQiWHmimRCeYFplh0JDpFAyHHrBNeh6pR6U-Jg';
-$range = 'Users!A2:H';
+$range = 'Users2!A2:H';
 $response = $service->spreadsheets_values->get($spreadsheetId, $range);
 $values = $response->getValues();
 
@@ -94,30 +98,31 @@ if (empty($values)) {
     }
 }
 
-$file = './data/9.html';
-$myfile = fopen($file, 'rb') or die('Unable to open file!');
-echo 'File size is ' . filesize($file);
-$text_data = fread($myfile, filesize($file));
-fclose($myfile);
-$pattern = '/<div class\=\"rt-tr-group\">.*\d+\">(.*)<\/div><\/div>.*\d+\">(.*)<\/div><\/div>.*\">(\d+)<\/div>.*>(.*)<\/div>.*<div.*\">.*<div.*\">(.*)<\/div>(.*)<\/div>.*<div.*\">(.*)<\/div>.*<div.*\">.*class=\"voter\-(.*)\"><select.*<\/div>(.*)<\/div>.*(\d+)<\/div>.*voter-details\/(\d++).*<\/a><\/div><\/div><\/div\>/U';
-$text = 'He was eating cake in the cafe.';
-$matches = preg_match_all($pattern, $text_data, $array, PREG_SET_ORDER);
-echo "\n". $matches . " matches were found.\n";
+for ($x=1; $x<20;$x++){
+    $file = './data/'.$x.'.html';
+    $myfile = fopen($file, 'rb') or die('Unable to open file!');
+    echo 'File size is ' . filesize($file);
+    $text_data = fread($myfile, filesize($file));
+    fclose($myfile);
+    $pattern = '/<div class\=\"rt-tr-group\">.*\d+\">(.*)<\/div><\/div>.*\d+\">(.*)<\/div><\/div>.*\">(\d+)<\/div>.*>(.*)<\/div>.*<div.*\">.*<div.*\">(.*)<\/div>(.*)<\/div>.*<div.*\">(.*)<\/div>.*<div.*\">.*class=\"voter\-(.*)\"><select.*<\/div>(.*)<\/div>.*(\d+)<\/div>.*voter-details\/(\d++).*<\/a><\/div><\/div><\/div\>/U';
+    $text = 'He was eating cake in the cafe.';
+    $matches = preg_match_all($pattern, $text_data, $array, PREG_SET_ORDER);
+    echo "\n". $matches . " matches were found.\n";
 
-foreach ($array as $key => $value) {
-    //print_r($key);
-    //print_r($value);
-    $fname = $value[1];
-    $lname = $value[2];
-    $tz = $value[3];
-    $addr = $value[4];
-    $phone = $value[5];
-    $unknown_1 = $value[6];
-    $unknown_2 = $value[7];
-    $support = $value[8];
-    $unknown_3 = $value[9];
-    $unknown_4 = $value[10];
-    $site_id = $value[11];
+    foreach ($array as $key => $value) {
+        //print_r($key);
+        //print_r($value);
+        $fname = $value[1];
+        $lname = $value[2];
+        $tz = $value[3];
+        $addr = $value[4];
+        $phone = $value[5];
+        $unknown_1 = $value[6];
+        $unknown_2 = $value[7];
+        $support = $value[8];
+        $unknown_3 = $value[9];
+        $unknown_4 = $value[10];
+        $site_id = $value[11];
 
 //    //$updateRange = 'I'.$currentRow;
 //    $values = [
@@ -145,20 +150,31 @@ foreach ($array as $key => $value) {
 //        'unknown_3',
 //        'unknown_4',
 //        'src_id'];
-    //$values2 = [$fname, $lname, $tz, $addr, $phone, $unknown_1, $unknown_2, $support, $unknown_3, $unknown_4, $site_id];
-    $values2 = [$fname, $lname, $tz, $addr, $phone, $support, $unknown_4, $site_id];
-    //$requestBody = new Google_Service_Sheets_BatchUpdateValuesRequest([
-    $arr[] = $values2;
+        //$values2 = [$fname, $lname, $tz, $addr, $phone, $unknown_1, $unknown_2, $support, $unknown_3, $unknown_4, $site_id];
+        $values2 = [$fname, $lname, $tz, $addr, $phone, $support, $unknown_4, $site_id];
+        //$requestBody = new Google_Service_Sheets_BatchUpdateValuesRequest([
+        $arr[] = $values2;
 
-    //$response = $service->spreadsheets_values->batchUpdate($spreadsheetId, $range, $requestBody, $params);
+        //$response = $service->spreadsheets_values->batchUpdate($spreadsheetId, $range, $requestBody, $params);
 
-    echo "$lname\t\t$fname\t\t$tz\t$addr\t\tPhone: $phone ||| \t\tU1:$unknown_1\tU2:$unknown_2\t$support\t\tU3:$unknown_3\tU4:$unknown_4\t$site_id\n";
-    //print_r($key);
+        echo "$lname\t\t$fname\t\t$tz\t$addr\t\tPhone: $phone ||| \t\tU1:$unknown_1\tU2:$unknown_2\t$support\t\tU3:$unknown_3\tU4:$unknown_4\t$site_id\n";
 
-    //exit();
+        $user = new User();
+        $user->setFirstName($fname);
+        $user->setLastName($lname);
+        $user->setSpecialId($tz);
+        $user->setAddress($addr);
+        $user->setPhone($phone);
+        $user->setSupport($support);
+        $user->setSiteId($site_id);
 
+        $entityManager->persist($user);
+        //echo "Created User with ID " . $user->getId() . "\n";
+    }
 }
 
+$entityManager->flush();
+exit();
 $requestBody = new Google_Service_Sheets_ValueRange([
     'values' => $arr
 ]);

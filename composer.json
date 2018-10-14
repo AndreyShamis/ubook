@@ -1,5 +1,11 @@
 {
     "require": {
-        "google/apiclient": "^2.0"
+        "google/apiclient": "^2.0",
+        "doctrine/orm": "2.6.*",
+        "doctrine/annotations": "1.6.*",
+        "doctrine/dbal": "2.8.*"
+    },
+    "autoload": {
+        "psr-0": {"": "src/"}
     }
 }
