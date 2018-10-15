@@ -118,7 +118,7 @@ for ($x=1; $x<20;$x++){
         $addr = $value[4];
         $phone = $value[5];
         $unknown_1 = $value[6];
-        $unknown_2 = $value[7];
+        $birthdate = $value[7];
         $support = $value[8];
         $unknown_3 = $value[9];
         $unknown_4 = $value[10];
@@ -132,7 +132,7 @@ for ($x=1; $x<20;$x++){
 //        'Address'           => $addr,
 //        'Phone'             => $phone,
 //        'unknown_1'         => $unknown_1,
-//        'unknown_2'         => $unknown_2,
+//        'unknown_2'         => $birthdate,
 //        'support'           => $support,
 //        'unknown_3'         => $unknown_3,
 //        'unknown_4'         => $unknown_4,
@@ -150,26 +150,27 @@ for ($x=1; $x<20;$x++){
 //        'unknown_3',
 //        'unknown_4',
 //        'src_id'];
-        //$values2 = [$fname, $lname, $tz, $addr, $phone, $unknown_1, $unknown_2, $support, $unknown_3, $unknown_4, $site_id];
+        //$values2 = [$fname, $lname, $tz, $addr, $phone, $unknown_1, $birthdate, $support, $unknown_3, $unknown_4, $site_id];
         $values2 = [$fname, $lname, $tz, $addr, $phone, $support, $unknown_4, $site_id];
         //$requestBody = new Google_Service_Sheets_BatchUpdateValuesRequest([
         $arr[] = $values2;
 
         //$response = $service->spreadsheets_values->batchUpdate($spreadsheetId, $range, $requestBody, $params);
 
-        //echo "$lname\t\t$fname\t\t$tz\t$addr\t\tPhone: $phone ||| \t\tU1:$unknown_1\tU2:$unknown_2\t$support\t\tU3:$unknown_3\tU4:$unknown_4\t$site_id\n";
+        //echo "$lname\t\t$fname\t\t$tz\t$addr\t\tPhone: $phone ||| \t\tU1:$unknown_1\tU2:$birthdate\t$support\t\tU3:$unknown_3\tU4:$unknown_4\t$site_id\n";
 
         $user = new User();
         $user->setFirstName($fname);
         $user->setLastName($lname);
-        $user->setSpecialId($tz);
+        $user->setSpecialId((int)$tz);
         $user->setAddress($addr);
         $user->setPhone($phone);
+        $support = str_replace(array('unknown-supporting', 'unverified-supporting'), array('unknown', 'unverified'), $support);
         $user->setSupport($support);
         $user->setSiteId($site_id);
 
         $user->setUnknown1($unknown_1);
-        $user->setUnknown2($unknown_2);
+        $user->setBirthdate($birthdate);
         $user->setUnknown3($unknown_3);
         $user->setUnknown4($unknown_4);
 

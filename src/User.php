@@ -57,7 +57,6 @@ class User
      **/
     private $siteId;
 
-
     /**
      * @ORM\Column(type="string")
      **/
@@ -66,7 +65,7 @@ class User
     /**
      * @ORM\Column(type="string")
      **/
-    private $unknown2;
+    private $birthdate;
 
     /**
      * @ORM\Column(type="string")
@@ -127,17 +126,17 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getSpecialId()
+    public function getSpecialId(): int
     {
         return $this->specialId;
     }
 
     /**
-     * @param mixed $specialId
+     * @param int $specialId
      */
-    public function setSpecialId($specialId): void
+    public function setSpecialId(int $specialId): void
     {
         $this->specialId = $specialId;
     }
@@ -217,25 +216,28 @@ class User
     /**
      * @param mixed $unknown1
      */
-    public function setUnknown1($unknown1)
+    public function setUnknown1($unknown1): void
     {
         $this->unknown1 = $unknown1;
     }
 
     /**
-     * @return mixed
+     * @param string $birthdate
      */
-    public function getUnknown2()
+    public function setBirthdate(string $birthdate): void
     {
-        return $this->unknown2;
+        if ($birthdate === '-') {
+            $birthdate = '';
+        }
+        $this->birthdate = $birthdate;
     }
 
     /**
-     * @param mixed $unknown2
+     * @return string
      */
-    public function setUnknown2($unknown2)
+    public function getBirthdate(): string
     {
-        $this->unknown2 = $unknown2;
+        return $this->birthdate;
     }
 
     /**
@@ -243,13 +245,13 @@ class User
      */
     public function getUnknown3()
     {
-        return $this->unknown3;
+        return $this->unknown2;
     }
 
     /**
      * @param mixed $unknown3
      */
-    public function setUnknown3($unknown3)
+    public function setUnknown3($unknown3): void
     {
         $this->unknown3 = $unknown3;
     }
@@ -265,10 +267,8 @@ class User
     /**
      * @param mixed $unknown4
      */
-    public function setUnknown4($unknown4)
+    public function setUnknown4($unknown4): void
     {
         $this->unknown4 = $unknown4;
     }
-
-
 }
