@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="users")
+ * @ORM\Table(name="users", uniqueConstraints={@ORM\UniqueConstraint(name="uniq_id", columns={"specialId"})})
  **/
 class User
 {
@@ -56,6 +56,27 @@ class User
      * @ORM\Column(type="integer")
      **/
     private $siteId;
+
+
+    /**
+     * @ORM\Column(type="string")
+     **/
+    private $unknown1;
+
+    /**
+     * @ORM\Column(type="string")
+     **/
+    private $unknown2;
+
+    /**
+     * @ORM\Column(type="string")
+     **/
+    private $unknown3;
+
+    /**
+     * @ORM\Column(type="string")
+     **/
+    private $unknown4;
 
     /**
      * @return mixed
@@ -184,5 +205,70 @@ class User
     {
         $this->siteId = $siteId;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUnknown1()
+    {
+        return $this->unknown1;
+    }
+
+    /**
+     * @param mixed $unknown1
+     */
+    public function setUnknown1($unknown1)
+    {
+        $this->unknown1 = $unknown1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnknown2()
+    {
+        return $this->unknown2;
+    }
+
+    /**
+     * @param mixed $unknown2
+     */
+    public function setUnknown2($unknown2)
+    {
+        $this->unknown2 = $unknown2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnknown3()
+    {
+        return $this->unknown3;
+    }
+
+    /**
+     * @param mixed $unknown3
+     */
+    public function setUnknown3($unknown3)
+    {
+        $this->unknown3 = $unknown3;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnknown4()
+    {
+        return $this->unknown4;
+    }
+
+    /**
+     * @param mixed $unknown4
+     */
+    public function setUnknown4($unknown4)
+    {
+        $this->unknown4 = $unknown4;
+    }
+
 
 }

@@ -77,26 +77,26 @@ function getClient()
 }
 
 
-// Get the API client and construct the service object.
-$client = getClient();
-$service = new Google_Service_Sheets($client);
-
-// Prints the names and majors of students in a sample spreadsheet:
-// https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-$spreadsheetId = '1bPaNJKQiWHmimRCeYFplh0JDpFAyHHrBNeh6pR6U-Jg';
-$range = 'Users2!A2:H';
-$response = $service->spreadsheets_values->get($spreadsheetId, $range);
-$values = $response->getValues();
-
-if (empty($values)) {
-    print "No data found.\n";
-} else {
-    print "Name, Major:\n";
-    foreach ($values as $row) {
-        // Print columns A and E, which correspond to indices 0 and 4.
-        printf("%s, %s\n", $row[0], $row[1]);
-    }
-}
+//// Get the API client and construct the service object.
+//$client = getClient();
+//$service = new Google_Service_Sheets($client);
+//
+//// Prints the names and majors of students in a sample spreadsheet:
+//// https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+//$spreadsheetId = '1bPaNJKQiWHmimRCeYFplh0JDpFAyHHrBNeh6pR6U-Jg';
+//$range = 'Users2!A2:H';
+//$response = $service->spreadsheets_values->get($spreadsheetId, $range);
+//$values = $response->getValues();
+//
+//if (empty($values)) {
+//    print "No data found.\n";
+//} else {
+//    print "Name, Major:\n";
+//    foreach ($values as $row) {
+//        // Print columns A and E, which correspond to indices 0 and 4.
+//        printf("%s, %s\n", $row[0], $row[1]);
+//    }
+//}
 
 for ($x=1; $x<20;$x++){
     $file = './data/'.$x.'.html';
@@ -157,7 +157,7 @@ for ($x=1; $x<20;$x++){
 
         //$response = $service->spreadsheets_values->batchUpdate($spreadsheetId, $range, $requestBody, $params);
 
-        echo "$lname\t\t$fname\t\t$tz\t$addr\t\tPhone: $phone ||| \t\tU1:$unknown_1\tU2:$unknown_2\t$support\t\tU3:$unknown_3\tU4:$unknown_4\t$site_id\n";
+        //echo "$lname\t\t$fname\t\t$tz\t$addr\t\tPhone: $phone ||| \t\tU1:$unknown_1\tU2:$unknown_2\t$support\t\tU3:$unknown_3\tU4:$unknown_4\t$site_id\n";
 
         $user = new User();
         $user->setFirstName($fname);
@@ -168,25 +168,34 @@ for ($x=1; $x<20;$x++){
         $user->setSupport($support);
         $user->setSiteId($site_id);
 
+        $user->setUnknown1($unknown_1);
+        $user->setUnknown2($unknown_2);
+        $user->setUnknown3($unknown_3);
+        $user->setUnknown4($unknown_4);
+
         $entityManager->persist($user);
         //echo "Created User with ID " . $user->getId() . "\n";
     }
+    echo "Flushing $x\n";
+    $entityManager->flush();
+    $entityManager->clear();
+    echo "Finish\n";
 }
 
-$entityManager->flush();
-exit();
-$requestBody = new Google_Service_Sheets_ValueRange([
-    'values' => $arr
-]);
-$response = null;
-$params = [
-    'valueInputOption' => 'RAW'
-];
-try {
-    $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $params);
-    //echo '<pre>', var_export($response, true), '</pre>', "\n";
 
-} catch (Exception $ex) {
-    print_r($ex->getMessage());
-}
+//exit();
+//$requestBody = new Google_Service_Sheets_ValueRange([
+//    'values' => $arr
+//]);
+//$response = null;
+//$params = [
+//    'valueInputOption' => 'RAW'
+//];
+//try {
+//    $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $params);
+//    //echo '<pre>', var_export($response, true), '</pre>', "\n";
+//
+//} catch (Exception $ex) {
+//    print_r($ex->getMessage());
+//}
 //print_r($array);
