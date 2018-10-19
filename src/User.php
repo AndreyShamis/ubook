@@ -60,22 +60,12 @@ class User
     /**
      * @ORM\Column(type="string")
      **/
-    private $unknown1;
-
-    /**
-     * @ORM\Column(type="string")
-     **/
     private $birthdate;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="smallint")
      **/
-    private $unknown3;
-
-    /**
-     * @ORM\Column(type="string")
-     **/
-    private $unknown4;
+    private $responsiveWorkers;
 
     /**
      * @return mixed
@@ -192,33 +182,17 @@ class User
     /**
      * @return mixed
      */
-    public function getSiteId()
+    public function getSiteId(): int
     {
         return $this->siteId;
     }
 
     /**
-     * @param mixed $siteId
+     * @param int $siteId
      */
-    public function setSiteId($siteId): void
+    public function setSiteId(int $siteId): void
     {
         $this->siteId = $siteId;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUnknown1()
-    {
-        return $this->unknown1;
-    }
-
-    /**
-     * @param mixed $unknown1
-     */
-    public function setUnknown1($unknown1): void
-    {
-        $this->unknown1 = $unknown1;
     }
 
     /**
@@ -241,34 +215,18 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getUnknown3()
+    public function getResponsiveWorkers(): int
     {
-        return $this->unknown2;
+        return $this->responsiveWorkers;
     }
 
     /**
-     * @param mixed $unknown3
+     * @param int $responsiveWorkers
      */
-    public function setUnknown3($unknown3): void
+    public function setResponsiveWorkers(int $responsiveWorkers): void
     {
-        $this->unknown3 = $unknown3;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUnknown4()
-    {
-        return $this->unknown4;
-    }
-
-    /**
-     * @param mixed $unknown4
-     */
-    public function setUnknown4($unknown4): void
-    {
-        $this->unknown4 = $unknown4;
+        $this->responsiveWorkers = $responsiveWorkers;
     }
 }
