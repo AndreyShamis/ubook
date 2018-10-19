@@ -1,15 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Andrey
+ * User: Andrey lolnik@gmail.com
  * Date: 10/13/2018
  * Time: 16:53
  */
 
 require_once "bootstrap.php";
 require __DIR__ . '/vendor/autoload.php';
-
-
 
 //
 //define('APPLICATION_NAME', 'spreadform');
